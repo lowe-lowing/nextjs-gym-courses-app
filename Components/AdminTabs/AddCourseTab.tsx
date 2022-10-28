@@ -6,12 +6,13 @@ const AddCourseTab = () => {
   const [endDate, setEndDate] = useState<string>();
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [successMsg, setSuccessMsg] = useState<string>("");
+  const [checked, setChecked] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.currentTarget;
 
-    const result = await fetch("/api/addCourse", {
+    const result = await fetch("/api/admin/addCourse", {
       method: "POST",
       body: JSON.stringify({
         Name: target.courseName.value,
@@ -19,6 +20,7 @@ const AddCourseTab = () => {
         MaxAttendants: target.maxAttends.value,
         StartTime: target.starttime.value,
         Endtime: target.endtime.value,
+        EveryWeek: checked ? 1 : 0,
       }),
     });
     if (result.status === 200) {
@@ -79,6 +81,17 @@ const AddCourseTab = () => {
           </div>
         </div>
         {errorMsg != "" && <span className="errorMessage">{errorMsg}</span>}
+        <label className="checkbox-container">
+          <div>Every Week</div>
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={() => {
+              setChecked(!checked);
+            }}
+          />
+          <span className="checkmark"></span>
+        </label>
         <div className="login-column">
           <span>Max Attendants:</span>
           <input required type="number" min="0" max="20" placeholder="Max Attendants..." name="maxAttends" />

@@ -1,29 +1,22 @@
 import "../styles/app.css";
 import type { AppProps } from "next/app";
 import Layout from "../Components/Layout";
-import { withIronSessionSsr } from "iron-session/next";
-import { sessionOptions } from "../lib/session";
 import AppCtx from "../lib/useContext";
 import { useState } from "react";
+import { Router } from "next/router";
+import nProgress from "nprogress"; //nprogress module
+import "nprogress/nprogress.css"; //styles of nprogress
 
-// type initialProps = AppProps & {
-//   user?: UserObject;
-// };
-const sample = {
-  user: {
-    Admin: 0,
-    UserId: 0,
-    Email: "",
-    Password: "string",
-    LastName: "string",
-    FirstName: "string",
-  } as UserObject,
-};
+Router.events.on("routeChangeStart", () => nProgress.start());
+Router.events.on("routeChangeComplete", () => nProgress.done());
+Router.events.on("routeChangeError", () => nProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentUser, setCurrentUser] = useState<UserObject | null>(null);
+  const [studentGrades, setStudentGrades] = useState<StudentGrade[] | null>(null);
+
   return (
-    <AppCtx.Provider value={{ currentUser, setCurrentUser }}>
+    <AppCtx.Provider value={{ currentUser, setCurrentUser, studentGrades, setStudentGrades }}>
       <Layout>
         <Component {...pageProps} />
       </Layout>

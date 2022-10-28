@@ -18,20 +18,21 @@ const Header: NextPage = () => {
     }
   };
 
-  const buttonsVisible = ["/", "/profile", "/admin"];
+  const buttonsVisible = ["/login", "/register"];
   return (
     <div className="header">
       <div onClick={() => router.push("/")} className="header-title">
         Lowes Workouts
       </div>
       <div>
-        {buttonsVisible.indexOf(router.pathname) > -1 &&
+        {buttonsVisible.indexOf(router.pathname) == -1 &&
           (currentUser != undefined ? (
             <>
               <span className="user-names">
                 {currentUser.FirstName} {currentUser.LastName}
               </span>
-              {currentUser?.Admin == 1 && <button onClick={() => router.push("/admin")}>Admin</button>}
+              {currentUser?.IsAdmin == 1 && <button onClick={() => router.push("/admin")}>Admin</button>}
+              {currentUser?.IsInstructor == 1 && <button onClick={() => router.push("/instructor")}>Instructor</button>}
               <button onClick={() => router.push("/profile")}>Profile</button>
               <button onClick={handleLogout}>Logout</button>
             </>

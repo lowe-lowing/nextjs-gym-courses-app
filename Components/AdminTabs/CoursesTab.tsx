@@ -9,7 +9,6 @@ type Props = {
 };
 
 const CoursesTab: NextPage<Props> = ({ courses }) => {
-  // console.log(courses);
   const router = useRouter();
 
   return (
@@ -26,7 +25,11 @@ const CoursesTab: NextPage<Props> = ({ courses }) => {
           <div>
             <div className="workout-time">
               <Calendar size="17" color="black" className="icon" />
-              {moment(course.StartTime).format("DD MMM")}
+              {course.EveryWeek == 1 ? (
+                <div>Every {moment(course.StartTime).format("dddd")}</div>
+              ) : (
+                <div>{moment(course.StartTime).format("DD MMM")}</div>
+              )}
             </div>
             <div className="workout-attends">
               <Clock size="17" color="black" className="icon" />
@@ -44,8 +47,3 @@ const CoursesTab: NextPage<Props> = ({ courses }) => {
 };
 
 export default CoursesTab;
-
-// fixa styling på tabcontainer
-// fixa students tab
-// fixa edit course
-// fixa add course

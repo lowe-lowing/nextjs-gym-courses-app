@@ -39,7 +39,7 @@ const Register: NextPage = () => {
         if (result.status === 200) {
           router.push("/login");
         } else {
-          alert("Something went wrong!");
+          setEmailValidMessage("Email already exists, try another email address");
         }
       }
     } else {
@@ -60,39 +60,41 @@ const Register: NextPage = () => {
     setPasswordValid(e.currentTarget.value.length >= 3 ? true : false);
   };
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <div className="login-column">
-          <span>Email:</span>
-          <input required type="email" placeholder="Email..." name="email" />
-          <span className="errorMessage">{emailValidMessage}</span>
-        </div>
-        <div className="login-column">
-          <span>
-            Password: <span className="errorMessage">{passwordValidMessage}</span>
-          </span>
-          <input required type="password" placeholder="Password..." name="password" onChange={validatePassword} />
-        </div>
-        <div className="register-names">
-          <div>
-            <span>First Name:</span>
-            <input required type="text" placeholder="First name..." name="firstname" />
+    <div className="main-container">
+      <div className="login-container">
+        <form onSubmit={handleSubmit}>
+          <div className="login-column">
+            <span>Email:</span>
+            <input required type="email" placeholder="Email..." name="email" />
+            <span className="errorMessage">{emailValidMessage}</span>
           </div>
-          <div>
-            <span>Last Name:</span>
-            <input required type="text" placeholder="Last name..." name="lastname" />
+          <div className="login-column">
+            <span>
+              Password: <span className="errorMessage">{passwordValidMessage}</span>
+            </span>
+            <input required type="password" placeholder="Password..." name="password" onChange={validatePassword} />
           </div>
-        </div>
-        <div className="register-submit">
-          <button type="submit">Register</button>
-          <span className="login-register">
-            <div>Already have an account?</div>
-            <Link href="/login" className="link">
-              Login
-            </Link>
-          </span>
-        </div>
-      </form>
+          <div className="register-names">
+            <div>
+              <span>First Name:</span>
+              <input required type="text" placeholder="First name..." name="firstname" />
+            </div>
+            <div>
+              <span>Last Name:</span>
+              <input required type="text" placeholder="Last name..." name="lastname" />
+            </div>
+          </div>
+          <div className="register-submit">
+            <button type="submit">Register</button>
+            <span className="login-register">
+              <div>Already have an account?</div>
+              <Link href="/login" className="link">
+                Login
+              </Link>
+            </span>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

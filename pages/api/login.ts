@@ -10,9 +10,14 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     const body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `SELECT * from Users WHERE Email = '${body.Email}' and Password = '${body.Password}'`,
+      query: `SELECT Users.*, CASE WHEN Admins.UserId IS NULL THEN 0 ELSE 1 END IsAdmin, CASE WHEN Instructors.UserId IS NULL THEN 0 ELSE 1 END IsInstructor
+      FROM Users
+      LEFT JOIN Admins ON Users.UserId = Admins.UserId
+      LEFT JOIN Instructors ON Instructors.UserId=Users.UserId
+      WHERE Email = '${body.Email}' and Password = '${body.Password}'`,
       values: "",
     });
+
     if (queryDb.length == 1) {
       req.session.user = queryDb[0];
       await req.session.save();

@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import excuteQuery from "../../lib/db";
+import excuteQuery from "../../../lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<[CourseObjectAdmin]>) {
   try {
@@ -13,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;
-    // console.log(results);
     res.status(200).json(results);
   } catch (error) {
     console.log(error);

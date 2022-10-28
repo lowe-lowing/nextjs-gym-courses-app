@@ -34,27 +34,29 @@ const Login: NextPage = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <div className="login-column">
-          <span>Email:</span>
-          <input required type="text" placeholder="Email..." name="email" />
-        </div>
-        <div className="login-column">
-          <span>Password:</span>
-          <input required type="password" placeholder="Password..." name="password" />
-        </div>
-        <div className="errorMessage">{errorMsg}</div>
-        <div className="register-submit">
-          <button type="submit">Log In</button>
-          <span className="login-register">
-            <div>Don't have an account?</div>
-            <Link href="/register" className="link">
-              Register
-            </Link>
-          </span>
-        </div>
-      </form>
+    <div className="main-container">
+      <div className="login-container">
+        <form onSubmit={handleSubmit}>
+          <div className="login-column">
+            <span>Email:</span>
+            <input required type="text" placeholder="Email..." name="email" />
+          </div>
+          <div className="login-column">
+            <span>Password:</span>
+            <input required type="password" placeholder="Password..." name="password" />
+          </div>
+          <div className="errorMessage">{errorMsg}</div>
+          <div className="register-submit">
+            <button type="submit">Log In</button>
+            <span className="login-register">
+              <div>Don't have an account?</div>
+              <Link href="/register" className="link">
+                Register
+              </Link>
+            </span>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

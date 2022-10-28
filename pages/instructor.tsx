@@ -5,15 +5,14 @@ import AppCtx from "../lib/useContext";
 import { withIronSessionSsr } from "iron-session/next";
 import { sessionOptions } from "../lib/session";
 import { NextPage } from "next";
-import AdminTabsController from "../Components/TabControllers/AdminTabsController";
+import InstructorTabsController from "../Components/TabControllers/InstructorTabsController";
 
 type props = {
   courses: [CourseObjectAdmin];
   students: [StudentsAdmin];
-  instructors: [InstructorsAdmin];
   user?: UserObject;
 };
-const admin: NextPage<props> = ({ user, courses, students, instructors }) => {
+const instructor: NextPage<props> = ({ user, courses, students }) => {
   const appContext = useContext(AppCtx);
   useEffect(() => {
     if (user) {
@@ -22,9 +21,8 @@ const admin: NextPage<props> = ({ user, courses, students, instructors }) => {
   }, []);
   return (
     <div className="h-full">
-      {/* <h2>Administration Page</h2> */}
-      {user?.IsAdmin == 1 ? (
-        <AdminTabsController courses={courses} students={students} instructors={instructors} />
+      {user?.IsInstructor == 1 ? (
+        <InstructorTabsController courses={courses} students={students} />
       ) : (
         <div>Unauthorized</div>
       )}
@@ -32,31 +30,36 @@ const admin: NextPage<props> = ({ user, courses, students, instructors }) => {
   );
 };
 
-export default admin;
+export default instructor;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
-  const getCoursesResult = await fetch("http://localhost:3000/api/admin/getCoursesAdmin");
+  const userBody = JSON.stringify({
+    InstructorId: user?.UserId,
+  });
+  const getCoursesResult = await fetch("http://localhost:3000/api/instructor/getCoursesInstructor", {
+    method: "POST",
+    body: userBody,
+  });
   const courses = await getCoursesResult.json();
 
-  const getStudentsResult = await fetch("http://localhost:3000/api/admin/getStudentsAdmin");
+  const getStudentsResult = await fetch("http://localhost:3000/api/instructor/getStudentsInstructor", {
+    method: "POST",
+    body: userBody,
+  });
   const students = await getStudentsResult.json();
-
-  const getInstructorsResult = await fetch("http://localhost:3000/api/admin/getInstructors");
-  const instructors = await getInstructorsResult.json();
 
   if (user === undefined) {
     return {
       props: {
         courses,
         students,
-        instructors,
         user: null,
       },
     };
   }
   return {
-    props: { courses, students, instructors, user: user },
+    props: { courses, students, user: user },
   };
 }, sessionOptions);

@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (queryDb.affectedRows == 1) {
       res.status(200).json(queryDb);
     } else {
-      res.status(500);
+      res.status(500).send("Error while creating user");
     }
   } catch (error) {
     console.log(error);

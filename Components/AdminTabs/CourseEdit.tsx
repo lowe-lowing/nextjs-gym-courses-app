@@ -1,13 +1,14 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { FormEvent, MouseEvent, useState } from "react";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
 type props = {
-  course: CourseObjectAdmin;
+  course?: CourseObjectAdmin;
 };
 
 const CourseEdit: NextPage<props> = ({ course }) => {
+  if (typeof course === "undefined") return <div>course undefined</div>;
   const [title, setTitle] = useState(course.Name);
   const [desc, setDesc] = useState(course.Description);
   const [startDate, setStartDate] = useState<string>(course.StartTime);
@@ -15,6 +16,7 @@ const CourseEdit: NextPage<props> = ({ course }) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [maxAttendants, setMaxAttendants] = useState<number | string>(course.MaxAttendants);
   const [removedStudents, setRemovedStudents] = useState<Array<number>>([]);
+  const [checked, setChecked] = useState<boolean>(course.EveryWeek == 1 ? true : false);
 
   const router = useRouter();
 
@@ -22,7 +24,7 @@ const CourseEdit: NextPage<props> = ({ course }) => {
     e.preventDefault();
     const target = e.currentTarget;
 
-    const result = await fetch("/api/editCourse", {
+    const result = await fetch("/api/admin/editCourse", {
       method: "POST",
       body: JSON.stringify({
         CourseId: course.CourseId,
@@ -31,6 +33,7 @@ const CourseEdit: NextPage<props> = ({ course }) => {
         MaxAttendants: target.maxAttends.value,
         StartTime: target.starttime.value,
         Endtime: target.endtime.value,
+        EveryWeek: checked ? 1 : 0,
         removedStudents,
       }),
     });
@@ -43,7 +46,7 @@ const CourseEdit: NextPage<props> = ({ course }) => {
   };
 
   const deleteCourse = async () => {
-    const result = await fetch("/api/deleteCourse", {
+    const result = await fetch("/api/admin/deleteCourse", {
       method: "POST",
       body: JSON.stringify({
         CourseId: course.CourseId,
@@ -148,6 +151,17 @@ const CourseEdit: NextPage<props> = ({ course }) => {
             </div>
           </div>
           {errorMsg != "" && <span className="errorMessage">{errorMsg}</span>}
+          <label className="checkbox-container">
+            <div>Every Week</div>
+            <input
+              type="checkbox"
+              checked={checked}
+              onChange={() => {
+                setChecked(!checked);
+              }}
+            />
+            <span className="checkmark"></span>
+          </label>
           <div className="login-column">
             <span>Max Attendants:</span>
             <input

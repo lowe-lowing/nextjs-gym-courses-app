@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import Courses from "../Components/Courses";
 import { withIronSessionSsr } from "iron-session/next";
 import { sessionOptions } from "../lib/session";
 import AppCtx from "../lib/useContext";
+import Course from "../Components/Course";
 
 type initialProps = {
   courses: [CourseObject];
@@ -19,7 +18,13 @@ const Home: NextPage<initialProps> = ({ courses, user }) => {
     }
   }, []);
 
-  return <Courses courses={courses} />;
+  return (
+    <div className="main-container">
+      {courses.map((course) => (
+        <Course course={course} user={user} key={course.CourseId} />
+      ))}
+    </div>
+  );
 };
 
 export default Home;
