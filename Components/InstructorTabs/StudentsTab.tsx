@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Link from "next/link";
 import React from "react";
 
 type props = {
@@ -11,27 +12,21 @@ const StudentsTab: NextPage<props> = ({ students }) => {
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Course(s)</th>
           </tr>
         </thead>
         <tbody>
-          {students.map((student) => {
-            const courseNames = student.Attends?.split(/[,:]/)
-              .filter((_, i) => (1 + i) % 2 == 0)
-              .join(", ");
-
+          {students.map((student, i) => {
             return (
-              <tr key={student.UserId}>
-                <td>{student.UserId}</td>
-                <td>{student.FirstName}</td>
-                <td>{student.LastName}</td>
-                <td>{student.Email}</td>
-                <td>{courseNames}</td>
-              </tr>
+              <Link key={i} href={`instructor?tab=students&id=${student.UserId}`} shallow={true}>
+                <tr className="hover:bg-secondary hover:cursor-pointer">
+                  <td>{student.FirstName}</td>
+                  <td>{student.LastName}</td>
+                  <td>{student.Email}</td>
+                </tr>
+              </Link>
             );
           })}
         </tbody>

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.10.4",
+    "aws-sdk": "^2.1246.0",
+    "crypto": "^1.0.1",
     "framer-motion": "^7.6.1",
     "iconsax-react": "^0.0.8",
     "install": "^0.13.0",
@@ -22,7 +24,8 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
-    "serverless-mysql": "^1.5.4"
+    "serverless-mysql": "^1.5.4",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@types/node": "18.11.0",

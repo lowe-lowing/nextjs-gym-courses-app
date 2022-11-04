@@ -1,13 +1,16 @@
+import { Minus } from "iconsax-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import React, { FormEvent, MouseEvent, useState } from "react";
+import React, { FormEvent, MouseEvent, useEffect, useState } from "react";
 import BackButton from "../BackButton";
 
 type props = {
   course?: CourseObjectAdmin;
+  instructors: InstructorsAdmin[];
+  facilities: Facility[];
 };
 
-const CourseEdit: NextPage<props> = ({ course }) => {
+const CourseEdit: NextPage<props> = ({ course, instructors, facilities }) => {
   if (typeof course === "undefined") return <div>course undefined</div>;
   const [title, setTitle] = useState(course.Name);
   const [desc, setDesc] = useState(course.Description);
@@ -17,6 +20,12 @@ const CourseEdit: NextPage<props> = ({ course }) => {
   const [maxAttendants, setMaxAttendants] = useState<number | string>(course.MaxAttendants);
   const [removedStudents, setRemovedStudents] = useState<Array<number>>([]);
   const [checked, setChecked] = useState<boolean>(course.EveryWeek == 1 ? true : false);
+  const [departments, setDepartments] = useState<Department[]>();
+  const [selected, setSelected] = useState<number>();
+  const [instructorsIdArr, setInstructorsIdArr] = useState<Array<string>>(course.Instructors?.split(",") || []);
+  const [selectedFacility, setSelectedFacility] = useState(
+    facilities.find((x) => x.Name.toLowerCase() === course.FacilityName.toLowerCase())?.FacilityId || "default"
+  );
 
   const router = useRouter();
 
@@ -35,6 +44,11 @@ const CourseEdit: NextPage<props> = ({ course }) => {
         Endtime: target.endtime.value,
         EveryWeek: checked ? 1 : 0,
         removedStudents,
+        DepartmentId: selected,
+        InstructorsChanged: (course.Instructors?.split(",") || []) != instructorsIdArr,
+        PrevInstructorsIds: course.Instructors?.split(",") || [],
+        InstructorsIds: instructorsIdArr,
+        FacilityId: selectedFacility,
       }),
     });
 
@@ -98,10 +112,26 @@ const CourseEdit: NextPage<props> = ({ course }) => {
       setRemovedStudents((rem) => rem.filter((removedUser) => removedUser != id));
     }
   };
+  const removeInstructor = (id: string) => {
+    setInstructorsIdArr((state) => state.filter((x) => x !== id));
+  };
+  const addInstructor = (id: string) => {
+    setInstructorsIdArr((state) => [...state, id]);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch("/api/admin/getDepartments");
+      const parsed = await result.json();
+      setDepartments(parsed);
+      setSelected(course.DepartmentId);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
 
   return (
     <div className="organizer">
-      <BackButton />
+      <BackButton href="/admin?tab=courses" loadShallow={true} />
       <div className="add-coure-container">
         <form onSubmit={handleSubmit}>
           <div className="login-column">
@@ -126,7 +156,7 @@ const CourseEdit: NextPage<props> = ({ course }) => {
               onChange={(text) => setDesc(text.currentTarget.value)}
             />
           </div>
-          <div className="register-names">
+          <div className="register-names times">
             <div>
               <span>Start Time:</span>
               <input
@@ -162,6 +192,91 @@ const CourseEdit: NextPage<props> = ({ course }) => {
             />
             <span className="checkmark"></span>
           </label>
+          <div className="flex gap-1 mb-[-10px]">
+            <label htmlFor="instructor">Instructors:</label>
+            <select
+              required
+              name="instructor"
+              className="hover:cursor-pointer"
+              value={"default"}
+              onChange={(e) => addInstructor(e.currentTarget.value.toString())}
+            >
+              <option hidden value="default">
+                Add Instructor...
+              </option>
+              {instructors?.map((instructor, i) => {
+                const inIdArray = instructorsIdArr.indexOf(instructor.UserId.toString()) == -1;
+                if (inIdArray) {
+                  return (
+                    <option key={i} value={instructor.UserId}>
+                      {instructor.FirstName} {instructor.LastName}
+                    </option>
+                  );
+                }
+              })}
+            </select>
+          </div>
+          <div className="flex flex-row">
+            {instructorsIdArr.map((id, i) => {
+              const instructor = instructors.find((x) => x.UserId === parseInt(id));
+
+              return (
+                <div
+                  key={i}
+                  className="flex items-center bg-primary m-1 p-1 rounded-full text-white hover:cursor-pointer"
+                  onClick={() => removeInstructor(id)}
+                >
+                  <span>
+                    {instructor?.FirstName} {instructor?.LastName}
+                  </span>
+                  <span>
+                    <Minus size="20" color="black" />
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="register-names">
+            <label htmlFor="department">Department:</label>
+            <select
+              required
+              defaultValue="default"
+              name="department"
+              value={selected}
+              onChange={(e) => setSelected(parseInt(e.currentTarget.value))}
+            >
+              <option disabled hidden value="default">
+                loading...
+              </option>
+              {departments?.map((department, i) => {
+                return (
+                  <option key={i} value={department.DepartmentId}>
+                    {department.DepartmentId}: {department.BodyPart}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="register-names">
+            <label htmlFor="instructor">Facility:</label>
+            <select
+              required
+              value={selectedFacility}
+              name="facility"
+              onChange={(e) => setSelectedFacility(parseInt(e.currentTarget.value))}
+            >
+              <option disabled hidden value="default">
+                -- select facility --
+              </option>
+              {facilities?.map((facility, i) => {
+                return (
+                  <option key={i} value={facility.FacilityId}>
+                    {facility.Name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
           <div className="login-column">
             <span>Max Attendants:</span>
             <input

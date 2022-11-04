@@ -22,9 +22,9 @@ const Student = ({ student }: { student: string }) => {
   const grades = ["F", "E", "D", "C", "B", "A"];
   return (
     <div className="attended-student flex flex-row justify-between" key={id}>
-      <div>{name}</div>{" "}
+      <div>{name}</div>
       <div className="grades flex justify-items-stretch">
-        {grades.map((grade, i) => (
+        {grades.reverse().map((grade, i) => (
           <span
             key={i}
             className={

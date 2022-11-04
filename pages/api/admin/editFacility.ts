@@ -2,21 +2,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../../lib/db";
 
-type Body = {
-  CourseId: number;
-};
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const body: Body = JSON.parse(req.body);
+    const body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `DELETE FROM Courses WHERE CourseId = ${body.CourseId};`,
+      query: `UPDATE Facilities SET City = '${body.city}', Address = '${body.address}', Name = '${body.name}' WHERE FacilityId = ${body.facilityId};`,
       values: "",
     });
+    console.log(queryDb);
 
     res.status(200).send("success");
   } catch (error) {
-    res.status(500).send("error");
+    console.log(error);
+    res.status(500).send(error);
   }
 }

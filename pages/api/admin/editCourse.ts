@@ -11,16 +11,44 @@ type Body = {
   Endtime: string;
   EveryWeek: number;
   removedStudents: number[];
+  DepartmentId: number;
+  InstructorsChanged: boolean;
+  PrevInstructorsIds: Array<string>;
+  InstructorsIds: Array<string>;
+  FacilityId: number;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const body: Body = JSON.parse(req.body);
-    let q = `UPDATE Courses SET Name = '${body.Name}', Description = '${body.Description}', MaxAttendants = ${body.MaxAttendants}, StartTime = '${body.StartTime}', Endtime = '${body.Endtime}', EveryWeek = ${body.EveryWeek} WHERE CourseId = ${body.CourseId};`;
+    let q = `UPDATE Courses SET Name = '${body.Name}', Description = '${body.Description}', MaxAttendants = ${
+      body.MaxAttendants
+    }, StartTime = '${body.StartTime}', Endtime = '${body.Endtime}', EveryWeek = ${body.EveryWeek}, FacilityId = ${
+      body.FacilityId || 0
+    } WHERE CourseId = ${body.CourseId}; UPDATE CourseDepartments SET DepartmentId = '${
+      body.DepartmentId
+    }' WHERE CourseId = ${body.CourseId}; `;
 
     body.removedStudents.forEach((studentId) => {
-      q += `DELETE FROM AttendedCourses WHERE CourseId = ${body.CourseId} AND UserId = ${studentId};`;
+      q += `DELETE FROM AttendedCourses WHERE CourseId = ${body.CourseId} AND UserId = ${studentId}; `;
     });
+
+    if (body.InstructorsChanged) {
+      body.InstructorsIds.forEach((InstructorsId) => {
+        if (body.PrevInstructorsIds.indexOf(InstructorsId) == -1) {
+          q += `INSERT INTO InstructedCourses (CourseId, InstructorId) VALUES (${body.CourseId}, ${parseInt(
+            InstructorsId
+          )});`;
+        }
+      });
+      body.PrevInstructorsIds.forEach((prevInstructorId) => {
+        if (body.InstructorsIds.indexOf(prevInstructorId) == -1) {
+          q += `DELETE FROM InstructedCourses WHERE CourseId = ${body.CourseId} AND InstructorId = ${parseInt(
+            prevInstructorId
+          )};`;
+        }
+      });
+    }
 
     const queryDb = await excuteQuery({
       query: q,

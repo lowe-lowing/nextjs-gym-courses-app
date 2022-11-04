@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import React, { MouseEvent, useContext, useState } from "react";
-import { Calendar, Clock, People } from "iconsax-react";
+import { Calendar, Clock, Location, People } from "iconsax-react";
 import AppCtx from "../lib/useContext";
 import moment from "moment";
 
@@ -10,6 +10,8 @@ type initialProps = {
 };
 
 const Course: NextPage<initialProps> = ({ course, user }) => {
+  const [isClicked, setIsClicked] = useState(false);
+
   const userIdString = user?.UserId.toString() || "";
   const [userIsAttended, setUserIsAttended] = useState<boolean | undefined>(
     course.Attends?.split(",").indexOf(userIdString) > -1 || false
@@ -26,8 +28,12 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
     });
 
     if (result.status === 200) {
-      setUserIsAttended(operation == "attendCourse");
-      setNumberOfAttended((text) => (operation == "attendCourse" ? text + 1 : text - 1));
+      setIsClicked(true);
+      setTimeout(() => {
+        setIsClicked(false);
+        setUserIsAttended(operation == "attendCourse");
+        setNumberOfAttended((text) => (operation == "attendCourse" ? text + 1 : text - 1));
+      }, 1000);
     } else {
       const parsed = await result.json();
       alert(parsed);
@@ -39,20 +45,41 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
       <div className="workout-container-div">
         <div className="workout-name">{course.Name}</div>
         <div className="workout-desc">{course.Description}</div>
-        <div>Instructors: {course.Instructors != null ? course.Instructors : "Unknown"}</div>
+        <div className="flex flex-row gap-5">
+          <div>
+            <div className="font-bold text-xs">Bodypart:</div>
+            <div>{course.BodyPart}</div>
+          </div>
+          <div>
+            <div className="font-bold text-xs">Code:</div>
+            <div>{course.DepartmentId}</div>
+          </div>
+        </div>
+        <div className="mt-2">
+          <span className="font-bold">Instructors:</span>{" "}
+          <span>{course.Instructors != null ? course.Instructors : "Unknown"}</span>
+        </div>
         <div className="to-replace">
           {user ? (
             userIsAttended ? (
-              <div className="unattend">
+              <div className="unattend unattend-animation">
                 <div className="workout-attended">You are signed up</div>
                 <button onClick={() => attendCourse(course.CourseId, "unattendCourse")}>Unattend</button>
               </div>
             ) : numberOfAttended == course.MaxAttendants ? (
-              <div>Max Capacity</div>
+              <div className="text-primary">Max Capacity</div>
             ) : (
-              <button className="btn-attend" onClick={() => attendCourse(course.CourseId, "attendCourse")}>
-                Attend Course
-              </button>
+              <div className="flex">
+                {isClicked ? (
+                  <div className="attend-btn-animation" onClick={() => attendCourse(course.CourseId, "attendCourse")}>
+                    Attend Course
+                  </div>
+                ) : (
+                  <button className="btn-attend pad" onClick={() => attendCourse(course.CourseId, "attendCourse")}>
+                    Attend Course
+                  </button>
+                )}
+              </div>
             )
           ) : (
             <div className="workout-login">Login to attend this course</div>
@@ -77,6 +104,10 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
           <span className="atd">
             {numberOfAttended}/{course.MaxAttendants}
           </span>
+        </div>
+        <div className="workout-attends">
+          <Location size="17" color="black" className="icon" />
+          <span className="atd text-sm">{course.FacilityName}</span>
         </div>
       </div>
     </div>

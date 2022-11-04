@@ -8,18 +8,23 @@ import StudentsTab from "../InstructorTabs/StudentsTab";
 import { motion } from "framer-motion";
 import Motion from "../../lib/Motion";
 import { AnimatePresence } from "framer-motion";
+import StudentInspect from "../InstructorTabs/StudentInspect";
 
 type props = {
   courses: [CourseObjectAdmin];
   students: [StudentsAdmin];
+  instructors: InstructorsAdmin[];
 };
-const InstructorTabsController: NextPage<props> = ({ courses, students }) => {
+
+const InstructorTabsController: NextPage<props> = ({ courses, students, instructors }) => {
   const router = useRouter();
   const tab: string = router.query.tab as string;
   const id: number | null = (parseInt(router.query.id as string) as number) || null;
-  const isTabOne = tab === "courses" || tab == null;
-  const isTabTwo = tab === "students";
+
+  const isCoursesTab = tab === "courses" || tab == null;
   const isInspector = id !== null;
+  const isStudentsTab = tab === "students";
+
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,25 +32,30 @@ const InstructorTabsController: NextPage<props> = ({ courses, students }) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-row">
+    <div className="min-h-full flex flex-row">
       {!loading && <div>Loading...</div>}
-      <div className="bg-secondary flex flex-col">
+      <div className="bg-secondary flex flex-col min-h-screen">
         <Link href="/instructor?tab=courses">
-          <div className={isTabOne ? "tabPick active" : "tabPick"}>Your Courses</div>
+          <div className={isCoursesTab ? "tabPick active" : "tabPick"}>Your Courses</div>
         </Link>
         <Link href="/instructor?tab=students">
-          <div className={isTabTwo ? "tabPick active" : "tabPick"}>Your Students</div>
+          <div className={isStudentsTab ? "tabPick active" : "tabPick"}>Your Students</div>
         </Link>
       </div>
       <AnimatePresence>
         <div className="w-full p-10 flex flex-col items-center">
-          {isTabOne &&
+          {isCoursesTab &&
             (isInspector ? (
-              <CourseInspect course={courses.find((x) => x.CourseId === id)} />
+              <CourseInspect course={courses.find((x) => x.CourseId === id)} instructors={instructors} />
             ) : (
-              <CoursesTab courses={courses} />
+              <CoursesTab courses={courses} instructors={instructors} />
             ))}
-          {isTabTwo && <StudentsTab students={students} />}
+          {isStudentsTab &&
+            (isInspector ? (
+              <StudentInspect student={students.find((x) => x.UserId === id)} courses={courses} />
+            ) : (
+              <StudentsTab students={students} />
+            ))}
         </div>
       </AnimatePresence>
     </div>

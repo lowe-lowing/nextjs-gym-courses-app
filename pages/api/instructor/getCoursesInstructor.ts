@@ -21,18 +21,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 ELSE concat(" Grade: ", Grades.Grade)
             END
         )
-    ) Students
+    ) Students, CourseDepartments.DepartmentId, Departments.BodyPart, (group_concat(DISTINCT InstructedCourses.InstructorId)) Instructors, Facilities.Name as FacilityName
 FROM Courses
-    LEFT JOIN AttendedCourses ON Courses.CourseId = AttendedCourses.CourseId
-    LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
-    INNER JOIN InstructedCourses ON Courses.CourseID = InstructedCourses.CourseID
-    LEFT JOIN Grades ON Courses.CourseID = Grades.CourseID
-    AND Users.UserId = Grades.UserId
+LEFT JOIN AttendedCourses ON Courses.CourseId = AttendedCourses.CourseId
+LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
+LEFT JOIN CourseDepartments ON Courses.CourseId=CourseDepartments.CourseId
+INNER JOIN InstructedCourses ON Courses.CourseID = InstructedCourses.CourseID
+INNER JOIN Departments ON CourseDepartments.DepartmentId = Departments.DepartmentId
+INNER JOIN Facilities ON Courses.FacilityId=Facilities.FacilityId
+LEFT JOIN Grades ON Courses.CourseID = Grades.CourseID
+AND Users.UserId = Grades.UserId
 WHERE InstructedCourses.InstructorId = ${body.InstructorId}
 GROUP BY Courses.CourseId;`,
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;
+
     res.status(200).json(results);
   } catch (error) {
     console.log(error);

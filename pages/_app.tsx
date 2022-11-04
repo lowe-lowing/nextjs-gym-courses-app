@@ -14,9 +14,12 @@ Router.events.on("routeChangeError", () => nProgress.done());
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentUser, setCurrentUser] = useState<UserObject | null>(null);
   const [studentGrades, setStudentGrades] = useState<StudentGrade[] | null>(null);
+  const [courseGrades, setCourseGrades] = useState<CourseGrade[] | null>(null);
 
   return (
-    <AppCtx.Provider value={{ currentUser, setCurrentUser, studentGrades, setStudentGrades }}>
+    <AppCtx.Provider
+      value={{ currentUser, setCurrentUser, studentGrades, setStudentGrades, courseGrades, setCourseGrades }}
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>

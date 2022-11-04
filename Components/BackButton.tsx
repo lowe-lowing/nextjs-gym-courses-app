@@ -2,11 +2,15 @@ import { ArrowLeft } from "iconsax-react";
 import { useRouter } from "next/router";
 import React from "react";
 
-const BackButton = () => {
-  const router = useRouter();
+interface props {
+  href: string;
+  loadShallow: boolean;
+}
 
+const BackButton = ({ href, loadShallow }: props) => {
+  const router = useRouter();
   return (
-    <button onClick={() => router.back()}>
+    <button onClick={() => router.push(href, undefined, { shallow: loadShallow })}>
       <ArrowLeft />
     </button>
   );

@@ -21,8 +21,20 @@ const Header: NextPage = () => {
   const buttonsVisible = ["/login", "/register"];
   return (
     <div className="header">
-      <div onClick={() => router.push("/")} className="header-title">
-        Lowes Workouts
+      <div className="flex gap-2 items-center">
+        {/* update github link */}
+        <div onClick={() => router.push("https://github.com")}>
+          <img src="icons8-github.png" alt="github" className="hover:cursor-pointer w-10" />
+        </div>
+        <div>
+          Lowes Workouts
+          <div
+            onClick={() => router.push("/")}
+            className="hover:cursor-pointer bg-primary text-white rounded-full p-[6px] w-fit transition-all hover:scale-110"
+          >
+            Home
+          </div>
+        </div>
       </div>
       <div>
         {buttonsVisible.indexOf(router.pathname) == -1 &&

@@ -5,6 +5,8 @@ interface AppContextInterface {
   setCurrentUser: (user: UserObject | null) => void;
   studentGrades: StudentGrade[] | null;
   setStudentGrades: (grades: StudentGrade[] | null) => void;
+  courseGrades: CourseGrade[] | null;
+  setCourseGrades: (grades: CourseGrade[] | null) => void;
 }
 
 const AppCtx = createContext<AppContextInterface | null>(null);

@@ -10,9 +10,10 @@ import InstructorTabsController from "../Components/TabControllers/InstructorTab
 type props = {
   courses: [CourseObjectAdmin];
   students: [StudentsAdmin];
+  instructors: InstructorsAdmin[];
   user?: UserObject;
 };
-const instructor: NextPage<props> = ({ user, courses, students }) => {
+const instructor: NextPage<props> = ({ user, courses, students, instructors }) => {
   const appContext = useContext(AppCtx);
   useEffect(() => {
     if (user) {
@@ -22,7 +23,7 @@ const instructor: NextPage<props> = ({ user, courses, students }) => {
   return (
     <div className="h-full">
       {user?.IsInstructor == 1 ? (
-        <InstructorTabsController courses={courses} students={students} />
+        <InstructorTabsController courses={courses} students={students} instructors={instructors} />
       ) : (
         <div>Unauthorized</div>
       )}
@@ -50,16 +51,20 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   });
   const students = await getStudentsResult.json();
 
+  const getInstructorsResult = await fetch("http://localhost:3000/api/admin/getInstructors");
+  const instructors = await getInstructorsResult.json();
+
   if (user === undefined) {
     return {
       props: {
         courses,
         students,
+        instructors,
         user: null,
       },
     };
   }
   return {
-    props: { courses, students, user: user },
+    props: { courses, students, instructors, user: user },
   };
 }, sessionOptions);

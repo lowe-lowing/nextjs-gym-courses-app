@@ -74,7 +74,7 @@ const Register: NextPage = () => {
             </span>
             <input required type="password" placeholder="Password..." name="password" onChange={validatePassword} />
           </div>
-          <div className="register-names">
+          <div className="register-names times">
             <div>
               <span>First Name:</span>
               <input required type="text" placeholder="First name..." name="firstname" />

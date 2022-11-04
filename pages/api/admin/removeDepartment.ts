@@ -1,10 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import excuteQuery from "../../lib/db";
+import excuteQuery from "../../../lib/db";
 
 type Body = {
-  UserId: number;
-  CourseId: number;
+  id: number;
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,16 +11,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `INSERT INTO AttendedCourses (CourseId, UserId) VALUES(${body.CourseId}, ${body.UserId});`,
+      query: `DELETE FROM Departments WHERE DepartmentId = ${body.id};`,
       values: "",
     });
 
-    if (queryDb.affectedRows == 1) {
-      res.status(200).send("success");
-    } else {
-      res.status(500).send("error");
-    }
+    res.status(200).send("success");
   } catch (error) {
-    console.log(error);
+    res.status(500).send("error");
   }
 }

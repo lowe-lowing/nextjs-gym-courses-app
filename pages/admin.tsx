@@ -11,9 +11,11 @@ type props = {
   courses: [CourseObjectAdmin];
   students: [StudentsAdmin];
   instructors: [InstructorsAdmin];
+  departments: DepartmentFull[];
+  facilities: Facility[];
   user?: UserObject;
 };
-const admin: NextPage<props> = ({ user, courses, students, instructors }) => {
+const admin: NextPage<props> = ({ user, courses, students, instructors, departments, facilities }) => {
   const appContext = useContext(AppCtx);
   useEffect(() => {
     if (user) {
@@ -24,7 +26,13 @@ const admin: NextPage<props> = ({ user, courses, students, instructors }) => {
     <div className="h-full">
       {/* <h2>Administration Page</h2> */}
       {user?.IsAdmin == 1 ? (
-        <AdminTabsController courses={courses} students={students} instructors={instructors} />
+        <AdminTabsController
+          courses={courses}
+          students={students}
+          instructors={instructors}
+          departments={departments}
+          facilities={facilities}
+        />
       ) : (
         <div>Unauthorized</div>
       )}
@@ -46,17 +54,25 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   const getInstructorsResult = await fetch("http://localhost:3000/api/admin/getInstructors");
   const instructors = await getInstructorsResult.json();
 
+  const getDepartmentsResult = await fetch("http://localhost:3000/api/admin/getFullDepartment");
+  const departments = await getDepartmentsResult.json();
+
+  const getFacilitiesResult = await fetch("http://localhost:3000/api/admin/getFacilities");
+  const facilities = await getFacilitiesResult.json();
+
   if (user === undefined) {
     return {
       props: {
         courses,
         students,
         instructors,
+        departments,
+        facilities,
         user: null,
       },
     };
   }
   return {
-    props: { courses, students, instructors, user: user },
+    props: { courses, students, instructors, departments, facilities, user: user },
   };
 }, sessionOptions);
