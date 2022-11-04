@@ -74,6 +74,7 @@ footer {
   background-color: #D9D9D9;
   padding: 25px;
   margin: 30px;
+  margin-top: 0px;
   border-radius: 15px;
   width: 500px;
   display: flex;
@@ -560,7 +561,6 @@ table > thead > tr > th {
     border-radius: 15px;
     gap: 15px;
     padding: 10px;
-    margin-top: 10px;
     margin-bottom: 10px;
   }
   /* .login-container form input, */
