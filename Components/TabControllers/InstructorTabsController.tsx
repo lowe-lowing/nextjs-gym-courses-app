@@ -43,7 +43,7 @@ const InstructorTabsController: NextPage<props> = ({ courses, students, instruct
         </Link>
       </div>
       <AnimatePresence>
-        <div className="w-full p-10 flex flex-col items-center">
+        <div className="w-full p-1 md:p-10 flex flex-col items-center">
           {isCoursesTab &&
             (isInspector ? (
               <CourseInspect course={courses.find((x) => x.CourseId === id)} instructors={instructors} />

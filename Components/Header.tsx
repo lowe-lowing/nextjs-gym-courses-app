@@ -40,7 +40,7 @@ const Header: NextPage = () => {
       <div>
         {buttonsVisible.indexOf(router.pathname) == -1 &&
           (currentUser != undefined ? (
-            <>
+            <div>
               <span className="user-names">
                 {currentUser.FirstName} {currentUser.LastName}
               </span>
@@ -48,7 +48,7 @@ const Header: NextPage = () => {
               {currentUser?.IsInstructor == 1 && <button onClick={() => router.push("/instructor")}>Instructor</button>}
               <button onClick={() => router.push("/profile")}>Profile</button>
               <button onClick={handleLogout}>Logout</button>
-            </>
+            </div>
           ) : (
             <>
               <button onClick={() => router.push("/login")}>Login</button>

@@ -107,7 +107,7 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
         </div>
         <div className="workout-attends">
           <Location size="17" color="black" className="icon" />
-          <span className="atd text-sm">{course.FacilityName}</span>
+          <span className="atd text-sm whitespace-normal md:whitespace-nowrap">{course.FacilityName}</span>
         </div>
       </div>
     </div>

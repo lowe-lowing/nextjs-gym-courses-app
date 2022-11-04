@@ -20,7 +20,7 @@ const Instructor: NextPage<props> = ({ user, courses, students, instructors }) =
     if (user) {
       appContext?.setCurrentUser(user);
     }
-  }, [user, appContext]);
+  }, []);
 
   return (
     <div className="h-full">

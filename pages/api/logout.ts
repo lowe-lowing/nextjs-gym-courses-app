@@ -7,6 +7,7 @@ export default withIronSessionApiRoute(logoutRoute, sessionOptions);
 async function logoutRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     req.session.destroy();
+    req.session.save();
     res.status(200).json({ message: "logged out successfully" });
   } catch (error) {
     console.log(error);

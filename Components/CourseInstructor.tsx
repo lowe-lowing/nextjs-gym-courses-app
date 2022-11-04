@@ -1,7 +1,6 @@
 import { ArrowRight, Calendar, Clock, Location, People } from "iconsax-react";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 
 type props = {
@@ -66,7 +65,7 @@ const CourseInstructor = ({ course, instructors }: props) => {
         </div>
         <div className="workout-attends">
           <Location size="17" color="black" className="icon" />
-          <span className="atd text-sm whitespace-nowrap">{course.FacilityName}</span>
+          <span className="atd text-sm whitespace-normal md:whitespace-nowrap">{course.FacilityName}</span>
         </div>
       </div>
     </div>

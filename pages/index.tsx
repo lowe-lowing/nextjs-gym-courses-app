@@ -78,20 +78,20 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
     if (user) {
       appContext?.setCurrentUser(user);
     }
-  }, [user, appContext]);
+  }, []);
 
   return (
     <div>
       <div className="relative w-full md:w-11/12 lg:w-6/7 xl:w-full">
-        <div className="flex flex-col w-full items-end md:items-center">
-          <div className="w-2/3 md:w-[500px] mr-2">
+        <div className="flex flex-col w-full items-end xl:items-center">
+          <div className="w-2/3 md:w-[500px] mr-2 mt-5">
             {coursesFilter.map((course) => (
               <Course course={course} user={user} key={course.CourseId} />
             ))}
           </div>
         </div>
         {/* filter sidebar */}
-        <div className="filter-sidebar absolute top-5 bg-secondary rounded-lg p-2 flex flex-col gap-2 ml-2">
+        <div className="filter-sidebar absolute top-5 bg-secondary rounded-lg p-2 flex flex-col gap-2 ml-0 md:ml-2">
           <div className="text-lg">Filters:</div>
           <div>
             <div className="font-bold text-xs">Course Name:</div>

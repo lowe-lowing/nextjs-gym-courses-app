@@ -536,6 +536,7 @@ table > thead > tr > th {
   }
   .tabPick {
     padding: 0.5rem !important;
+    font-size: 0.8rem !important;
     white-space: nowrap;
   }
   .smHidden {
@@ -543,6 +544,9 @@ table > thead > tr > th {
   }
   .organizer {
     position: relative;
+  }
+  .header {
+    font-size: 0.8rem !important;
   }
 
   .organizer>button {
