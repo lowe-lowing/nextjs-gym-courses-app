@@ -15,7 +15,7 @@ type props = {
   facilities: Facility[];
   user?: UserObject;
 };
-const admin: NextPage<props> = ({ user, courses, students, instructors, departments, facilities }) => {
+const Admin: NextPage<props> = ({ user, courses, students, instructors, departments, facilities }) => {
   const appContext = useContext(AppCtx);
   useEffect(() => {
     if (user) {
@@ -40,7 +40,7 @@ const admin: NextPage<props> = ({ user, courses, students, instructors, departme
   );
 };
 
-export default admin;
+export default Admin;
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;

@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
 import type { NextPage } from "next";
 import AppCtx from "../lib/useContext";
+import Image from "next/image";
 
 const Header: NextPage = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const Header: NextPage = () => {
       <div className="flex gap-2 items-center">
         {/* update github link */}
         <div onClick={() => router.push("https://github.com")}>
-          <img src="icons8-github.png" alt="github" className="hover:cursor-pointer w-10" />
+          <Image src="icons8-github.png" alt="github" className="hover:cursor-pointer w-10" />
         </div>
         <div>
           Lowes Workouts

@@ -1,5 +1,6 @@
 import { withIronSessionSsr } from "iron-session/next";
 import { NextPage } from "next";
+import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import Course from "../Components/Course";
 import { sessionOptions } from "../lib/session";
@@ -68,7 +69,7 @@ const Profile: NextPage<initialProps> = ({ user, courses }) => {
         <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col items-center">
           {/* <label htmlFor="filepick" className="bg-black">
           </label> */}
-          <img src={s3ImageUrl} alt="pfp" className="rounded-full w-1/2 aspect-square" />
+          <Image src={s3ImageUrl} alt="pfp" className="rounded-full w-1/2 aspect-square" />
           <div>
             <input type="file" name="filepicker" onChange={(e) => handleChange(e)} />
             <button type="submit" disabled={selectedfile == null} className="submit-grades">
