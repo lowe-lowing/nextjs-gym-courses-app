@@ -106,7 +106,7 @@ const Profile: NextPage<initialProps> = ({ user, courses }) => {
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
-  const result = await fetch("http://localhost:3000/api/getCourses");
+  const result = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/getCourses`);
   const courses = await result.json();
 
   if (user === undefined) {

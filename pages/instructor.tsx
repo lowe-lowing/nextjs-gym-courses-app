@@ -41,19 +41,19 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   const userBody = JSON.stringify({
     InstructorId: user?.UserId,
   });
-  const getCoursesResult = await fetch("http://localhost:3000/api/instructor/getCoursesInstructor", {
+  const getCoursesResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/instructor/getCoursesInstructor`, {
     method: "POST",
     body: userBody,
   });
   const courses = await getCoursesResult.json();
 
-  const getStudentsResult = await fetch("http://localhost:3000/api/instructor/getStudentsInstructor", {
+  const getStudentsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/instructor/getStudentsInstructor`, {
     method: "POST",
     body: userBody,
   });
   const students = await getStudentsResult.json();
 
-  const getInstructorsResult = await fetch("http://localhost:3000/api/admin/getInstructors");
+  const getInstructorsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getInstructors`);
   const instructors = await getInstructorsResult.json();
 
   if (user === undefined) {

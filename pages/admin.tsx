@@ -45,19 +45,19 @@ export default Admin;
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
-  const getCoursesResult = await fetch("http://localhost:3000/api/admin/getCoursesAdmin");
+  const getCoursesResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getCoursesAdmin`);
   const courses = await getCoursesResult.json();
 
-  const getStudentsResult = await fetch("http://localhost:3000/api/admin/getStudentsAdmin");
+  const getStudentsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getStudentsAdmin`);
   const students = await getStudentsResult.json();
 
-  const getInstructorsResult = await fetch("http://localhost:3000/api/admin/getInstructors");
+  const getInstructorsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getInstructors`);
   const instructors = await getInstructorsResult.json();
 
-  const getDepartmentsResult = await fetch("http://localhost:3000/api/admin/getFullDepartment");
+  const getDepartmentsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFullDepartment`);
   const departments = await getDepartmentsResult.json();
 
-  const getFacilitiesResult = await fetch("http://localhost:3000/api/admin/getFacilities");
+  const getFacilitiesResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFacilities`);
   const facilities = await getFacilitiesResult.json();
 
   if (user === undefined) {
