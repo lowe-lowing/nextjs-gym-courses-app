@@ -25,7 +25,7 @@ const Header: NextPage = () => {
       <div className="flex gap-2 items-center">
         {/* update github link */}
         <div onClick={() => router.push("https://github.com")}>
-          <Image src="icons8-github.png" alt="github" className="hover:cursor-pointer w-10" />
+          <Image src="/icons8-github.png" alt="github" width="40" height="40" className="hover:cursor-pointer w-10" />
         </div>
         <div>
           Lowes Workouts

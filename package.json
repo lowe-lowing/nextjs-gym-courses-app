@@ -11,7 +11,6 @@
   "dependencies": {
     "@emotion/styled": "^11.10.4",
     "aws-sdk": "^2.1246.0",
-    "crypto": "^1.0.1",
     "framer-motion": "^7.6.1",
     "iconsax-react": "^0.0.8",
     "install": "^0.13.0",

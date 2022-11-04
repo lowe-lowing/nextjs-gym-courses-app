@@ -21,7 +21,7 @@ const Admin: NextPage<props> = ({ user, courses, students, instructors, departme
     if (user) {
       appContext?.setCurrentUser(user);
     }
-  }, []);
+  }, [user, appContext]);
   return (
     <div className="h-full">
       {/* <h2>Administration Page</h2> */}

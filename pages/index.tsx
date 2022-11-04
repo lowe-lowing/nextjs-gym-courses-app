@@ -78,7 +78,7 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
     if (user) {
       appContext?.setCurrentUser(user);
     }
-  }, []);
+  }, [user, appContext]);
 
   return (
     <div>

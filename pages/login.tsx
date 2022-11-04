@@ -49,7 +49,7 @@ const Login: NextPage = () => {
           <div className="register-submit">
             <button type="submit">Log In</button>
             <span className="login-register">
-              <div>Don't have an account?</div>
+              <div>{`Don't have an account?`}</div>
               <Link href="/register" className="link">
                 Register
               </Link>

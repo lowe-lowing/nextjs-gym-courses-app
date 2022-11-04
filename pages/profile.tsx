@@ -69,7 +69,7 @@ const Profile: NextPage<initialProps> = ({ user, courses }) => {
         <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col items-center">
           {/* <label htmlFor="filepick" className="bg-black">
           </label> */}
-          <Image src={s3ImageUrl} alt="pfp" className="rounded-full w-1/2 aspect-square" />
+          <Image src={s3ImageUrl} alt="pfp" width="100" height="100" className="rounded-full w-1/2 aspect-square" />
           <div>
             <input type="file" name="filepicker" onChange={(e) => handleChange(e)} />
             <button type="submit" disabled={selectedfile == null} className="submit-grades">

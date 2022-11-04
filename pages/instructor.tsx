@@ -15,11 +15,13 @@ type props = {
 };
 const Instructor: NextPage<props> = ({ user, courses, students, instructors }) => {
   const appContext = useContext(AppCtx);
+
   useEffect(() => {
     if (user) {
       appContext?.setCurrentUser(user);
     }
-  }, []);
+  }, [user, appContext]);
+
   return (
     <div className="h-full">
       {user?.IsInstructor == 1 ? (
