@@ -71,8 +71,13 @@ const Profile: NextPage<initialProps> = ({ user, courses }) => {
           </label> */}
           <Image src={s3ImageUrl} alt="pfp" width="100" height="100" className="rounded-full w-1/2 aspect-square" />
           <div>
+            <div className="font-bold text-xs">Upload profile Picture:</div>
             <input type="file" name="filepicker" onChange={(e) => handleChange(e)} />
-            <button type="submit" disabled={selectedfile == null} className="submit-grades">
+            <button
+              type="submit"
+              disabled={selectedfile == null}
+              className="submit-grades mt-[5px!important] p-[5px!important]"
+            >
               Submit
             </button>
           </div>
