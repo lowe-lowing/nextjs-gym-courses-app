@@ -58,7 +58,7 @@ const AdminTabsController: NextPage<props> = ({ courses, students, instructors, 
           <div className={isFacilitiesTab ? "tabPick active" : "tabPick"}>Facilites</div>
         </Link>
       </div>
-      <div className="w-full flex flex-col items-center pt-5">
+      <div className="w-full flex flex-col items-center pt-5 pb-5">
         {isCoursesTab &&
           (isEditor ? (
             <CourseEdit

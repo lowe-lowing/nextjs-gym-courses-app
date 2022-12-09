@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         LEFT JOIN InstructedCourses ON Courses.CourseId = InstructedCourses.CourseId
         INNER JOIN Departments ON CourseDepartments.DepartmentId = Departments.DepartmentId
         INNER JOIN Facilities ON Courses.FacilityId=Facilities.FacilityId
-        GROUP BY Courses.CourseId;`,
+        GROUP BY Courses.CourseId, CourseDepartments.DepartmentId;;`,
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;
