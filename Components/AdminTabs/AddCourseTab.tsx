@@ -206,7 +206,9 @@ const AddCourseTab: NextPage<props> = ({ instructors, facilities }) => {
         {successMsg != "" && (
           <div className="register-submit">
             <span className="successMessage">{successMsg}</span>
-            <Link href="/admin?tab=courses">Go to courses</Link>
+            <Link href="/admin?tab=courses" shallow={false}>
+              Go to courses
+            </Link>
           </div>
         )}
         <div>
