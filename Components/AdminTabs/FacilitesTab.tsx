@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowDown2, ArrowDown3, ArrowUp2, Dropbox } from "iconsax-react";
+import { ArrowDown, ArrowDown2, ArrowDown3, ArrowUp2, Dropbox, Trash } from "iconsax-react";
 import { NextPage } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -35,6 +35,20 @@ const FacilitesTab: NextPage<props> = ({ facilities }) => {
           Name: target.facilityName.value,
         } as Facility,
       ]);
+    } else {
+      alert("Something went wrong! Please try again later.");
+    }
+  };
+
+  const handleRemove = async (id: number) => {
+    const result = await fetch("/api/admin/removeFacility", {
+      method: "POST",
+      body: JSON.stringify({
+        id: id,
+      }),
+    });
+    if (result.status == 200) {
+      setFacilitiesState((state) => state.filter((fac) => fac.FacilityId != id));
     } else {
       alert("Something went wrong! Please try again later.");
     }
@@ -87,15 +101,27 @@ const FacilitesTab: NextPage<props> = ({ facilities }) => {
             <th>Name</th>
             <th>City</th>
             <th>Address</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {facilitiesState.map((facility, i) => (
-            <Link key={i} href={`admin?tab=facilities&facilityId=${facility.FacilityId.toString()}`} shallow={true}>
+            <Link key={i} href={`admin?tab=facilities&facilityId=${facility.FacilityId.toString()}`} shallow={false}>
               <tr className="hover:bg-secondary hover:cursor-pointer">
                 <td>{facility.Name}</td>
                 <td>{facility.City}</td>
                 <td>{facility.Address}</td>
+                <td className="flex flex-row justify-end">
+                  <Trash
+                    size="17"
+                    color="#FF5C5C"
+                    className="hover:cursor-pointer mt-1"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRemove(facility.FacilityId);
+                    }}
+                  />
+                </td>
               </tr>
             </Link>
           ))}

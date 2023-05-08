@@ -43,7 +43,7 @@ const FacilityTab = ({ facility, courses, instructors }: props) => {
 
   return (
     <div className="organizer">
-      <BackButton href="/admin?tab=facilities" loadShallow={true} />
+      <BackButton href="/admin?tab=facilities" loadShallow={false} />
       <div className="add-coure-container">
         <div>
           <form onSubmit={(e) => handleSubmit(e)}>

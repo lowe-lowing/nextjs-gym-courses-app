@@ -60,7 +60,6 @@ const DepartmentsTab: NextPage<props> = ({ departments }) => {
             <tr>
               <th>Code</th>
               <th>BodyPart</th>
-              {/* <th>Admin Id</th> */}
             </tr>
           </thead>
           <tbody>
@@ -68,7 +67,6 @@ const DepartmentsTab: NextPage<props> = ({ departments }) => {
               <tr key={i} className="border-b-2 border-bColor">
                 <td>{department.DepartmentId}</td>
                 <td>{department.BodyPart}</td>
-                {/* <td>{department.AdminId}</td> */}
                 <td className="flex flex-row justify-end">
                   <Trash
                     size="17"
@@ -87,7 +85,3 @@ const DepartmentsTab: NextPage<props> = ({ departments }) => {
 };
 
 export default DepartmentsTab;
-
-// TODO:fix department add
-// TODO:fix user filter
-// TODO:fix more than one instructor?

@@ -12,7 +12,7 @@ type initialProps = {
 };
 
 const Profile: NextPage<initialProps> = ({ user, courses }) => {
-  const [s3ImageUrl, setS3ImageUrl] = useState<string>(user?.ProfilePicture || "default_pfp.png");
+  const [s3ImageUrl, setS3ImageUrl] = useState<string>(user?.ProfilePicture || "/default_pfp.png");
   const [selectedfile, setFile] = useState<File | null>(null);
 
   const appContext = useContext(AppCtx);
