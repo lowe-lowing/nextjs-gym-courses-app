@@ -16,7 +16,7 @@ async function pfphandler(req: NextApiRequest, res: NextApiResponse) {
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `UPDATE Users SET ProfilePicture = '${body.pfpUrl}' WHERE UserId = ${body.UserId};`,
+      query: `UPDATE users SET ProfilePicture = '${body.pfpUrl}' WHERE UserId = ${body.UserId};`,
       values: "",
     });
 

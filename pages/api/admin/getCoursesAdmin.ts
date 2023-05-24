@@ -5,15 +5,15 @@ import excuteQuery from "../../../lib/db";
 export default async function handler(req: NextApiRequest, res: NextApiResponse<[CourseObjectAdmin]>) {
   try {
     const queryDb = await excuteQuery({
-      query: `SELECT Courses.*, (group_concat(DISTINCT AttendedCourses.UserId)) Attends, (group_concat(DISTINCT Users.UserId, ":", Users.FirstName, " ", Users.Lastname)) Students, CourseDepartments.DepartmentId, Departments.BodyPart, (group_concat(DISTINCT InstructedCourses.InstructorId)) Instructors, Facilities.Name as FacilityName
-        FROM Courses
-        LEFT JOIN AttendedCourses ON Courses.CourseId=AttendedCourses.CourseId
-        LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
-        LEFT JOIN CourseDepartments ON Courses.CourseId=CourseDepartments.CourseId
-        LEFT JOIN InstructedCourses ON Courses.CourseId = InstructedCourses.CourseId
-        INNER JOIN Departments ON CourseDepartments.DepartmentId = Departments.DepartmentId
-        INNER JOIN Facilities ON Courses.FacilityId=Facilities.FacilityId
-        GROUP BY Courses.CourseId, CourseDepartments.DepartmentId;;`,
+      query: `SELECT courses.*, (group_concat(DISTINCT attended_courses.UserId)) Attends, (group_concat(DISTINCT users.UserId, ":", users.FirstName, " ", users.Lastname)) Students, course_departments.DepartmentId, departments.BodyPart, (group_concat(DISTINCT instructed_courses.InstructorId)) Instructors, facilities.Name as FacilityName
+        FROM courses
+        LEFT JOIN attended_courses ON courses.CourseId=attended_courses.CourseId
+        LEFT JOIN users ON attended_courses.UserId = users.UserId
+        LEFT JOIN course_departments ON courses.CourseId=course_departments.CourseId
+        LEFT JOIN instructed_courses ON courses.CourseId = instructed_courses.CourseId
+        INNER JOIN departments ON course_departments.departmentId = departments.DepartmentId
+        INNER JOIN facilities ON courses.FacilityId=facilities.FacilityId
+        GROUP BY courses.CourseId, course_departments.DepartmentId;`,
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;

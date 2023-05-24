@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `INSERT INTO AttendedCourses (CourseId, UserId) VALUES(${body.CourseId}, ${body.UserId});`,
+      query: `INSERT INTO attended_courses (CourseId, UserId) VALUES(${body.CourseId}, ${body.UserId});`,
       values: "",
     });
 

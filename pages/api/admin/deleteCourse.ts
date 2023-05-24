@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `DELETE FROM Courses WHERE CourseId = ${body.CourseId};`,
+      query: `DELETE FROM courses WHERE CourseId = ${body.CourseId};`,
       values: "",
     });
 

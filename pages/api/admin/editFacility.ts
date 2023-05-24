@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `UPDATE Facilities SET City = '${body.city}', Address = '${body.address}', Name = '${body.name}' WHERE FacilityId = ${body.facilityId};`,
+      query: `UPDATE facilities SET City = '${body.city}', Address = '${body.address}', Name = '${body.name}' WHERE FacilityId = ${body.facilityId};`,
       values: "",
     });
     console.log(queryDb);

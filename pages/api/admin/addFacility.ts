@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `INSERT INTO Facilities (City, Address, Name) VALUES ('${body.City}', '${body.Address}', '${body.Name}'); SELECT LAST_INSERT_ID() as lastId;`,
+      query: `INSERT INTO facilities (City, Address, Name) VALUES ('${body.City}', '${body.Address}', '${body.Name}'); SELECT LAST_INSERT_ID() as lastId;`,
       values: "",
     });
 

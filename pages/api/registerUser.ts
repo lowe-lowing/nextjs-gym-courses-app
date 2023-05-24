@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const body: Body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `INSERT INTO Users (Email, Password, LastName, FirstName) VALUES('${body.Email}', '${body.Password}', '${body.LastName}', '${body.FirstName}');`,
+      query: `INSERT INTO users (Email, Password, LastName, FirstName) VALUES('${body.Email}', '${body.Password}', '${body.LastName}', '${body.FirstName}');`,
       values: "",
     });
 

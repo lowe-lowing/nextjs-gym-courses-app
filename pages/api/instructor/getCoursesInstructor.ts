@@ -21,13 +21,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 ELSE concat(" Grade: ", Grades.Grade)
             END
         )
-    ) Students, CourseDepartments.DepartmentId, Departments.BodyPart, (group_concat(DISTINCT InstructedCourses.InstructorId)) Instructors, Facilities.Name as FacilityName
+    ) Students, course_departments.DepartmentId, Departments.BodyPart, (group_concat(DISTINCT InstructedCourses.InstructorId)) Instructors, Facilities.Name as FacilityName
 FROM Courses
 LEFT JOIN AttendedCourses ON Courses.CourseId = AttendedCourses.CourseId
 LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
-LEFT JOIN CourseDepartments ON Courses.CourseId=CourseDepartments.CourseId
+LEFT JOIN course_departments ON Courses.CourseId=course_departments.CourseId
 INNER JOIN InstructedCourses ON Courses.CourseID = InstructedCourses.CourseID
-INNER JOIN Departments ON CourseDepartments.DepartmentId = Departments.DepartmentId
+INNER JOIN Departments ON course_departments.DepartmentId = Departments.DepartmentId
 INNER JOIN Facilities ON Courses.FacilityId=Facilities.FacilityId
 LEFT JOIN Grades ON Courses.CourseID = Grades.CourseID
 AND Users.UserId = Grades.UserId

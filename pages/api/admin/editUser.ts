@@ -6,18 +6,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const body = JSON.parse(req.body) as EditUserBody;
 
-    let q: string = `UPDATE Users SET Email = '${body.Email}', FirstName = '${body.FirstName}', LastName = '${body.LastName}' WHERE UserId = ${body.UserId}; `;
+    let q: string = `UPDATE users SET Email = '${body.Email}', FirstName = '${body.FirstName}', LastName = '${body.LastName}' WHERE UserId = ${body.UserId}; `;
 
     if (body.LevelChanged) {
       if (body.InitLevel === 1) {
-        q += `DELETE FROM Admins WHERE UserId = ${body.UserId}; `;
+        q += `DELETE FROM admins WHERE UserId = ${body.UserId}; `;
       } else if (body.InitLevel === 2) {
-        q += `DELETE FROM Instructors WHERE UserId = ${body.UserId}; `;
+        q += `DELETE FROM instructors WHERE UserId = ${body.UserId}; `;
       }
       if (body.Level == 1) {
-        q += `INSERT INTO Admins (UserId) VALUES (${body.UserId}); `;
+        q += `INSERT INTO admins (UserId) VALUES (${body.UserId}); `;
       } else if (body.Level == 2) {
-        q += `INSERT INTO Instructors (UserId) VALUES (${body.UserId}); `;
+        q += `INSERT INTO instructors (UserId) VALUES (${body.UserId}); `;
       }
     }
 

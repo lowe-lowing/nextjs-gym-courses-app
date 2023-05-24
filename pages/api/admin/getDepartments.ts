@@ -5,7 +5,7 @@ import excuteQuery from "../../../lib/db";
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Department[]>) {
   try {
     const queryDb = await excuteQuery({
-      query: `SELECT Departments.DepartmentId, Departments.BodyPart FROM Departments ORDER BY Departments.DepartmentId;`,
+      query: `SELECT departments.DepartmentId, departments.BodyPart FROM departments ORDER BY departments.DepartmentId;`,
       values: "",
     });
 
