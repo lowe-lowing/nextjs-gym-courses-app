@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     let q: string = "";
 
     body.Grades.forEach((grade: StudentGrade) => {
-      q += `INSERT INTO Grades (CourseId, UserId, Grade) VALUES(${body.CourseId}, ${grade.UserId}, '${grade.Grade}') ON DUPLICATE KEY UPDATE CourseId=${body.CourseId}, UserId=${grade.UserId}, Grade='${grade.Grade}'; `;
+      q += `INSERT INTO grades (CourseId, UserId, Grade) VALUES(${body.CourseId}, ${grade.UserId}, '${grade.Grade}') ON DUPLICATE KEY UPDATE CourseId=${body.CourseId}, UserId=${grade.UserId}, Grade='${grade.Grade}'; `;
     });
 
     const queryDb = await excuteQuery({

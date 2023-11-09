@@ -7,32 +7,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const body = JSON.parse(req.body);
 
     const queryDb = await excuteQuery({
-      query: `SELECT Courses.*,
-    (group_concat(DISTINCT AttendedCourses.UserId)) Attends,
+      query: `SELECT courses.*,
+    (group_concat(DISTINCT attended_courses.UserId)) Attends,
     (
         group_concat(
-            DISTINCT Users.UserId,
+            DISTINCT users.UserId,
             ";",
-            Users.FirstName,
+            users.FirstName,
             " ",
-            Users.Lastname,
+            users.Lastname,
             CASE
-                WHEN Grades.Grade IS NULL THEN " Grade: Not Set"
-                ELSE concat(" Grade: ", Grades.Grade)
+                WHEN grades.Grade IS NULL THEN " Grade: Not Set"
+                ELSE concat(" Grade: ", grades.Grade)
             END
         )
-    ) Students, course_departments.DepartmentId, Departments.BodyPart, (group_concat(DISTINCT InstructedCourses.InstructorId)) Instructors, Facilities.Name as FacilityName
-FROM Courses
-LEFT JOIN AttendedCourses ON Courses.CourseId = AttendedCourses.CourseId
-LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
-LEFT JOIN course_departments ON Courses.CourseId=course_departments.CourseId
-INNER JOIN InstructedCourses ON Courses.CourseID = InstructedCourses.CourseID
-INNER JOIN Departments ON course_departments.DepartmentId = Departments.DepartmentId
-INNER JOIN Facilities ON Courses.FacilityId=Facilities.FacilityId
-LEFT JOIN Grades ON Courses.CourseID = Grades.CourseID
-AND Users.UserId = Grades.UserId
-WHERE InstructedCourses.InstructorId = ${body.InstructorId}
-GROUP BY Courses.CourseId;`,
+    ) Students, course_departments.DepartmentId, departments.BodyPart, (group_concat(DISTINCT instructed_courses.InstructorId)) Instructors, facilities.Name as FacilityName
+FROM courses
+LEFT JOIN attended_courses ON courses.CourseId = attended_courses.CourseId
+LEFT JOIN users ON attended_courses.UserId = users.UserId
+LEFT JOIN course_departments ON courses.CourseId=course_departments.CourseId
+INNER JOIN instructed_courses ON courses.CourseID = instructed_courses.CourseID
+INNER JOIN departments ON course_departments.DepartmentId = departments.DepartmentId
+INNER JOIN facilities ON courses.FacilityId=facilities.FacilityId
+LEFT JOIN grades ON courses.CourseID = grades.CourseID
+AND users.UserId = grades.UserId
+WHERE instructed_courses.InstructorId = ${body.InstructorId}
+GROUP BY courses.CourseId, course_departments.DepartmentId, departments.BodyPart;`,
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;

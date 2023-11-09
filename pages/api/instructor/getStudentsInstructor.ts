@@ -6,18 +6,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     const body = JSON.parse(req.body);
     const queryDb = await excuteQuery({
-      query: `SELECT Users.*, (group_concat(DISTINCT Courses.CourseId, ":", Courses.Name)) Attends
-        FROM Courses
-        LEFT JOIN AttendedCourses ON Courses.CourseId = AttendedCourses.CourseId
-        LEFT JOIN Users ON AttendedCourses.UserId = Users.UserId
-        INNER JOIN InstructedCourses ON Courses.CourseID = InstructedCourses.CourseID
-        WHERE InstructedCourses.InstructorId = ${body.InstructorId}
-        GROUP BY Users.UserId;`,
+      query: `SELECT users.*, (group_concat(DISTINCT courses.CourseId, ":", courses.Name)) Attends
+        FROM courses
+        LEFT JOIN attended_courses ON courses.CourseId = attended_courses.CourseId
+        LEFT JOIN users ON attended_courses.UserId = users.UserId
+        INNER JOIN instructed_courses ON courses.CourseID = instructed_courses.CourseID
+        WHERE instructed_courses.InstructorId = ${body.InstructorId}
+        GROUP BY users.UserId;`,
       values: "",
     });
 
     const results: [StudentsInstructor] = queryDb;
-    // console.log(results);
     res.status(200).json(results);
   } catch (error) {
     console.log(error);

@@ -25,9 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       body.MaxAttendants
     }, StartTime = '${body.StartTime}', Endtime = '${body.Endtime}', EveryWeek = ${body.EveryWeek}, FacilityId = ${
       body.FacilityId || 0
-    } WHERE CourseId = ${body.CourseId}; UPDATE course_departments SET DepartmentId = '${
-      body.DepartmentId
-    }' WHERE CourseId = ${body.CourseId}; `;
+    } WHERE CourseId = ${body.CourseId}; DELETE FROM course_departments WHERE CourseId = ${
+      body.CourseId
+    }; INSERT INTO course_departments (DepartmentId, CourseId) VALUES (${body.DepartmentId}, ${body.CourseId});`;
 
     body.removedStudents.forEach((studentId) => {
       q += `DELETE FROM attended_courses WHERE CourseId = ${body.CourseId} AND UserId = ${studentId}; `;
@@ -54,8 +54,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       query: q,
       values: "",
     });
+    console.log(queryDb);
 
-    if (queryDb.affectedRows == 1 || queryDb[0].affectedRows == 1) {
+    if (queryDb?.affectedRows == 1 || queryDb[0]?.affectedRows == 1) {
       res.status(200).json(queryDb);
     } else {
       res.status(500).json(queryDb);

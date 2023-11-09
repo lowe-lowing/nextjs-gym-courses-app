@@ -11,9 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         LEFT JOIN users ON attended_courses.UserId = users.UserId
         LEFT JOIN course_departments ON courses.CourseId=course_departments.CourseId
         LEFT JOIN instructed_courses ON courses.CourseId = instructed_courses.CourseId
-        INNER JOIN departments ON course_departments.departmentId = departments.DepartmentId
-        INNER JOIN facilities ON courses.FacilityId=facilities.FacilityId
-        GROUP BY courses.CourseId, course_departments.DepartmentId;`,
+        LEFT JOIN departments ON course_departments.DepartmentId = departments.DepartmentId
+        LEFT JOIN facilities ON courses.FacilityId=facilities.FacilityId
+        GROUP BY courses.CourseId, course_departments.DepartmentId, departments.BodyPart;`,
       values: "",
     });
     const results: [CourseObjectAdmin] = queryDb;

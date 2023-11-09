@@ -45,20 +45,19 @@ export default Admin;
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
-  const getCoursesResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getCoursesAdmin`);
-  const courses = await getCoursesResult.json();
+  const [coursesResult, studentsResult, instructorsResult, departmentsResult, facilitiesResult] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getCoursesAdmin`),
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getStudentsAdmin`),
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getInstructors`),
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFullDepartment`),
+    fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFacilities`),
+  ]);
 
-  const getStudentsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getStudentsAdmin`);
-  const students = await getStudentsResult.json();
-
-  const getInstructorsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getInstructors`);
-  const instructors = await getInstructorsResult.json();
-
-  const getDepartmentsResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFullDepartment`);
-  const departments = await getDepartmentsResult.json();
-
-  const getFacilitiesResult = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin/getFacilities`);
-  const facilities = await getFacilitiesResult.json();
+  const courses = await coursesResult.json();
+  const students = await studentsResult.json();
+  const instructors = await instructorsResult.json();
+  const departments = await departmentsResult.json();
+  const facilities = await facilitiesResult.json();
 
   if (user === undefined) {
     return {
@@ -72,6 +71,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
       },
     };
   }
+
   return {
     props: { courses, students, instructors, departments, facilities, user: user },
   };
