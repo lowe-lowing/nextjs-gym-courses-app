@@ -16,6 +16,7 @@
     "install": "^0.13.0",
     "iron-session": "^6.2.1",
     "moment": "^2.29.4",
+    "mysql2": "^3.9.2",
     "next": "12.3.1",
     "next-session": "^4.0.5",
     "nprogress": "^0.2.0",
@@ -23,7 +24,6 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
-    "serverless-mysql": "^1.5.4",
     "util": "^0.12.5"
   },
   "devDependencies": {

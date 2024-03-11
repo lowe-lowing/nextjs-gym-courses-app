@@ -16,7 +16,9 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
   const [userIsAttended, setUserIsAttended] = useState<boolean | undefined>(
     course.Attends?.split(",").indexOf(userIdString) > -1 || false
   );
-  const [numberOfAttended, setNumberOfAttended] = useState<number>(course.Attends?.split(",").length || 0);
+  const [numberOfAttended, setNumberOfAttended] = useState<number>(
+    course.Attends?.split(",").length || 0
+  );
 
   const attendCourse = async (CourseId: number, operation: string) => {
     const result = await fetch(`/api/${operation}`, {
@@ -47,11 +49,11 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
         <div className="workout-desc">{course.Description}</div>
         <div className="flex flex-row gap-5">
           <div>
-            <div className="font-bold text-xs">Bodypart:</div>
+            <div className="text-xs font-bold">Bodypart:</div>
             <div>{course.BodyPart}</div>
           </div>
           <div>
-            <div className="font-bold text-xs">Code:</div>
+            <div className="text-xs font-bold">Code:</div>
             <div>{course.DepartmentId}</div>
           </div>
         </div>
@@ -64,18 +66,26 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
             userIsAttended ? (
               <div className="unattend unattend-animation">
                 <div className="workout-attended">You are signed up</div>
-                <button onClick={() => attendCourse(course.CourseId, "unattendCourse")}>Unattend</button>
+                <button onClick={() => attendCourse(course.CourseId, "unattendCourse")}>
+                  Unattend
+                </button>
               </div>
             ) : numberOfAttended == course.MaxAttendants ? (
               <div className="text-primary">Max Capacity</div>
             ) : (
               <div className="flex">
                 {isClicked ? (
-                  <div className="attend-btn-animation" onClick={() => attendCourse(course.CourseId, "attendCourse")}>
+                  <div
+                    className="attend-btn-animation"
+                    onClick={() => attendCourse(course.CourseId, "attendCourse")}
+                  >
                     Attend Course
                   </div>
                 ) : (
-                  <button className="btn-attend pad" onClick={() => attendCourse(course.CourseId, "attendCourse")}>
+                  <button
+                    className="btn-attend pad"
+                    onClick={() => attendCourse(course.CourseId, "attendCourse")}
+                  >
                     Attend Course
                   </button>
                 )}
@@ -97,7 +107,7 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
         </div>
         <div className="workout-attends">
           <Clock size="17" color="black" className="icon" />
-          {course.StartTime.split("T")[1]} - {course.EndTime.split("T")[1]}
+          {course.StartTime?.split("T")[1]} - {course.EndTime?.split("T")[1]}
         </div>
         <div className="workout-attends">
           <People size="17" color="black" className="icon" />
@@ -107,7 +117,9 @@ const Course: NextPage<initialProps> = ({ course, user }) => {
         </div>
         <div className="workout-attends">
           <Location size="17" color="black" className="icon" />
-          <span className="atd text-sm whitespace-normal md:whitespace-nowrap">{course.FacilityName}</span>
+          <span className="text-sm whitespace-normal atd md:whitespace-nowrap">
+            {course.FacilityName}
+          </span>
         </div>
       </div>
     </div>

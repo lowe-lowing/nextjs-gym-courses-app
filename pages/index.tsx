@@ -55,7 +55,9 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
   const handleBPFilter = (id: string, checked: boolean) => {
     const temp = {
       ...filters,
-      BodyParts: checked ? [...filters.BodyParts, parseInt(id)] : filters.BodyParts.filter((x) => x != parseInt(id)),
+      BodyParts: checked
+        ? [...filters.BodyParts, parseInt(id)]
+        : filters.BodyParts.filter((x) => x != parseInt(id)),
     } as Filters;
 
     applyFilters(temp);
@@ -83,18 +85,19 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
   return (
     <div>
       <div className="relative w-full md:w-11/12 lg:w-6/7 xl:w-full">
-        <div className="flex flex-col w-full items-end xl:items-center">
+        <div className="flex flex-col items-end w-full xl:items-center">
           <div className="w-2/3 md:w-[500px] mr-2 mt-5">
-            {coursesFilter.map((course) => (
-              <Course course={course} user={user} key={course.CourseId} />
-            ))}
+            {coursesFilter.length > 0 &&
+              coursesFilter.map((course) => (
+                <Course course={course} user={user} key={course.CourseId} />
+              ))}
           </div>
         </div>
         {/* filter sidebar */}
-        <div className="filter-sidebar absolute top-5 bg-secondary rounded-lg p-2 flex flex-col gap-2 ml-0 md:ml-2">
+        <div className="absolute flex flex-col gap-2 p-2 ml-0 rounded-lg filter-sidebar top-5 bg-secondary md:ml-2">
           <div className="text-lg">Filters:</div>
           <div>
-            <div className="font-bold text-xs">Course Name:</div>
+            <div className="text-xs font-bold">Course Name:</div>
             <input
               type="text"
               placeholder="Course Name..."
@@ -103,7 +106,7 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
             />
           </div>
           <div>
-            <div className="font-bold text-xs">Facility:</div>
+            <div className="text-xs font-bold">Facility:</div>
             <input
               type="text"
               placeholder="Facility..."
@@ -112,7 +115,7 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
             />
           </div>
           <div>
-            <div className="font-bold text-xs">Instructor:</div>
+            <div className="text-xs font-bold">Instructor:</div>
             <input
               type="text"
               placeholder="Instructor..."
@@ -121,18 +124,19 @@ const Home: NextPage<initialProps> = ({ courses, departments, user }) => {
             />
           </div>
           <div>
-            <div className="font-bold text-xs">Body Part:</div>
-            {departments.map((department, i) => (
-              <div key={i} className="flex content-center gap-1">
-                <input
-                  type="checkbox"
-                  name="test"
-                  id={department.DepartmentId.toString()}
-                  onChange={(e) => handleBPFilter(e.currentTarget.id, e.currentTarget.checked)}
-                />
-                <label htmlFor={department.DepartmentId.toString()}>{department.BodyPart}</label>
-              </div>
-            ))}
+            <div className="text-xs font-bold">Body Part:</div>
+            {departments.length > 0 &&
+              departments.map((department, i) => (
+                <div key={i} className="flex content-center gap-1">
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id={department.DepartmentId?.toString()}
+                    onChange={(e) => handleBPFilter(e.currentTarget.id, e.currentTarget.checked)}
+                  />
+                  <label htmlFor={department.DepartmentId?.toString()}>{department.BodyPart}</label>
+                </div>
+              ))}
           </div>
         </div>
       </div>
