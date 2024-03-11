@@ -2,7 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../../lib/db";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<[StudentsInstructor]>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<StudentsInstructor[]>
+) {
   try {
     const body = JSON.parse(req.body);
     const queryDb = await excuteQuery({
@@ -16,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       values: "",
     });
 
-    const results: [StudentsInstructor] = queryDb;
+    const results = queryDb as StudentsInstructor[];
     res.status(200).json(results);
   } catch (error) {
     console.log(error);

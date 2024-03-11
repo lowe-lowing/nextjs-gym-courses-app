@@ -2,7 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../../lib/db";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<[CourseObjectAdmin]>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<CourseObjectAdmin[]>
+) {
   try {
     const body = JSON.parse(req.body);
 
@@ -35,7 +38,7 @@ WHERE instructed_courses.InstructorId = ${body.InstructorId}
 GROUP BY courses.CourseId, course_departments.DepartmentId, departments.BodyPart;`,
       values: "",
     });
-    const results: [CourseObjectAdmin] = queryDb;
+    const results = queryDb as CourseObjectAdmin[];
 
     res.status(200).json(results);
   } catch (error) {
