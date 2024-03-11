@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../lib/db";
+import { ResultSetHeader } from "mysql2";
 
 type Body = {
   UserId: number;
@@ -11,10 +12,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const body: Body = JSON.parse(req.body);
 
-    const queryDb = await excuteQuery({
+    const queryDb = (await excuteQuery({
       query: `DELETE FROM attended_courses WHERE CourseId = ${body.CourseId} AND UserId =${body.UserId};`,
       values: "",
-    });
+    })) as ResultSetHeader;
 
     if (queryDb.affectedRows == 1) {
       res.status(200).send("success");

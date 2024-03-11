@@ -3,6 +3,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../lib/db";
 import { sessionOptions } from "../../lib/session";
+import { ResultSetHeader } from "mysql2";
 
 type Body = {
   UserId: number;
@@ -15,10 +16,10 @@ async function pfphandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const body: Body = JSON.parse(req.body);
 
-    const queryDb = await excuteQuery({
+    const queryDb = (await excuteQuery({
       query: `UPDATE users SET ProfilePicture = '${body.pfpUrl}' WHERE UserId = ${body.UserId};`,
       values: "",
-    });
+    })) as ResultSetHeader;
 
     if (queryDb.affectedRows == 1) {
       if (req.session.user != undefined) {
