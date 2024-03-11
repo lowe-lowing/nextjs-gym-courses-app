@@ -110,7 +110,13 @@ const AddCourseTab: NextPage<props> = ({ instructors, facilities }) => {
           </div>
           <div>
             <span>End Time:</span>
-            <input required type="datetime-local" placeholder="End Time..." name="endtime" onChange={validateEndDate} />
+            <input
+              required
+              type="datetime-local"
+              placeholder="End Time..."
+              name="endtime"
+              onChange={validateEndDate}
+            />
           </div>
         </div>
         {errorMsg != "" && <span className="errorMessage">{errorMsg}</span>}
@@ -156,8 +162,9 @@ const AddCourseTab: NextPage<props> = ({ instructors, facilities }) => {
 
             return (
               <div
-                className="flex items-center bg-primary m-1 p-1 rounded-full text-white hover:cursor-pointer"
+                className="flex items-center p-1 m-1 text-white rounded-full bg-primary hover:cursor-pointer"
                 onClick={() => removeInstructor(id)}
+                key={id}
               >
                 <span>
                   {instructor?.FirstName} {instructor?.LastName}
@@ -201,7 +208,14 @@ const AddCourseTab: NextPage<props> = ({ instructors, facilities }) => {
         </div>
         <div className="login-column">
           <span>Max Attendants:</span>
-          <input required type="number" min="1" max="20" placeholder="Max Attendants..." name="maxAttends" />
+          <input
+            required
+            type="number"
+            min="1"
+            max="20"
+            placeholder="Max Attendants..."
+            name="maxAttends"
+          />
         </div>
         {successMsg != "" && (
           <div className="register-submit">

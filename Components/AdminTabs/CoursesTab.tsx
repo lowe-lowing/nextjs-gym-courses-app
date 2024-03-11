@@ -3,15 +3,14 @@ import React from "react";
 import CourseAdmin from "../CourseAdmin";
 
 type Props = {
-  courses: [CourseObjectAdmin];
+  courses: CourseObjectAdmin[];
   instructors: InstructorsAdmin[];
 };
 
 const CoursesTab: NextPage<Props> = ({ courses, instructors }) => (
   <div>
-    {courses?.map((course, i) => (
-      <CourseAdmin key={i} course={course} instructors={instructors} />
-    ))}
+    {courses.length > 0 &&
+      courses.map((course, i) => <CourseAdmin key={i} course={course} instructors={instructors} />)}
   </div>
 );
 

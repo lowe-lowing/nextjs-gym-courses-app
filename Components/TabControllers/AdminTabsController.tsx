@@ -19,7 +19,13 @@ type props = {
   departments: DepartmentFull[];
   facilities: Facility[];
 };
-const AdminTabsController: NextPage<props> = ({ courses, students, instructors, departments, facilities }) => {
+const AdminTabsController: NextPage<props> = ({
+  courses,
+  students,
+  instructors,
+  departments,
+  facilities,
+}) => {
   const router = useRouter();
   const tab: string = router.query.tab as string;
   const edit: number | null = (parseInt(router.query.edit as string) as number) || null;
@@ -37,8 +43,10 @@ const AdminTabsController: NextPage<props> = ({ courses, students, instructors, 
   const isFacilityId = facilityId !== null;
 
   return (
-    <div className="min-h-full flex flex-row">
-      <div className={`bg-secondary flex flex-col min-h-screen ${isEditor || isId ? "smHidden" : ""}`}>
+    <div className="flex flex-row min-h-full">
+      <div
+        className={`bg-secondary flex flex-col min-h-screen ${isEditor || isId ? "smHidden" : ""}`}
+      >
         <Link href="/admin?tab=courses">
           <div className={isCoursesTab ? "tabPick active" : "tabPick"}>Courses</div>
         </Link>
@@ -58,7 +66,7 @@ const AdminTabsController: NextPage<props> = ({ courses, students, instructors, 
           <div className={isFacilitiesTab ? "tabPick active" : "tabPick"}>Facilites</div>
         </Link>
       </div>
-      <div className="w-full flex flex-col items-center pt-5 pb-5">
+      <div className="flex flex-col items-center w-full pt-5 pb-5">
         {isCoursesTab &&
           (isEditor ? (
             <CourseEdit
@@ -71,7 +79,11 @@ const AdminTabsController: NextPage<props> = ({ courses, students, instructors, 
           ))}
         {isAddCoursesTab && <AddCourseTab instructors={instructors} facilities={facilities} />}
         {isStudentsTab &&
-          (isId ? <StudentTab student={students.find((x) => x.UserId === id)} /> : <StudentsTab students={students} />)}
+          (isId ? (
+            <StudentTab student={students.find((x) => x.UserId === id)} />
+          ) : (
+            <StudentsTab students={students} />
+          ))}
         {isInstructorsTab && <InstructorsTab instructors={instructors} />}
         {isDepartmentsTab && <DepartmentsTab departments={departments} />}
         {isFacilitiesTab &&

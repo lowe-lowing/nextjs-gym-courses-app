@@ -12,7 +12,9 @@ const StudentTab: NextPage<props> = ({ student }) => {
   const [email, setEmail] = useState<string>(student.Email);
   const [firstName, setFirstName] = useState<string>(student.FirstName);
   const [lastName, setLastName] = useState<string>(student.LastName);
-  const [selected, setSelected] = useState<number>(student.IsAdmin ? 1 : student.IsInstructor ? 2 : 3);
+  const [selected, setSelected] = useState<number>(
+    student.IsAdmin ? 1 : student.IsInstructor ? 2 : 3
+  );
   const [emailValidMessage, setEmailValidMessage] = useState<string>("");
   const [isEdited, setIsEdited] = useState<boolean>(false);
   const router = useRouter();
@@ -63,7 +65,9 @@ const StudentTab: NextPage<props> = ({ student }) => {
   };
 
   useEffect(() => {
-    setIsEdited(JSON.stringify(initialValues) == JSON.stringify({ email, firstName, lastName, selected }));
+    setIsEdited(
+      JSON.stringify(initialValues) == JSON.stringify({ email, firstName, lastName, selected })
+    );
   }, [email, firstName, lastName, selected]);
 
   return (
@@ -125,7 +129,7 @@ const StudentTab: NextPage<props> = ({ student }) => {
               Change
             </button>
           </div>
-          <div className="font-bold text-2xl">Courses:</div>
+          <div className="text-2xl font-bold">Courses:</div>
           {student.Attends ? (
             <div>
               {student.Attends.split(",").map((Attend, i) => {
@@ -134,9 +138,9 @@ const StudentTab: NextPage<props> = ({ student }) => {
                 const courseGrade = Attend.split("grade")[1];
 
                 return (
-                  <div key={i} className="attended-student flex flex-row justify-between">
+                  <div key={i} className="flex flex-row justify-between attended-student">
                     <div>{courseName}</div>
-                    <div className="user-grades flex justify-items-stretch">
+                    <div className="flex user-grades justify-items-stretch">
                       {grades.reverse().map((grade, i) => (
                         <span key={i} className={grade == courseGrade ? "selected-grade" : ""}>
                           {grade}

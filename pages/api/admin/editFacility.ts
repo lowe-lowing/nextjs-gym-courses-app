@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       query: `UPDATE facilities SET City = '${body.city}', Address = '${body.address}', Name = '${body.name}' WHERE FacilityId = ${body.facilityId};`,
       values: "",
     });
-    console.log(queryDb);
 
     res.status(200).send("success");
   } catch (error) {

@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       values: "",
     });
 
-    const result: Facility[] = queryDb;
+    const result = queryDb as Facility[];
     res.status(200).json(result);
   } catch (error) {
     console.log(error);

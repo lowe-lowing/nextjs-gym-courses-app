@@ -2,7 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import excuteQuery from "../../../lib/db";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<[CourseObjectAdmin]>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<CourseObjectAdmin[]>
+) {
   try {
     const queryDb = await excuteQuery({
       query: `SELECT courses.*, (group_concat(DISTINCT attended_courses.UserId)) Attends, (group_concat(DISTINCT users.UserId, ":", users.FirstName, " ", users.Lastname)) Students, course_departments.DepartmentId, departments.BodyPart, (group_concat(DISTINCT instructed_courses.InstructorId)) Instructors, facilities.Name as FacilityName
@@ -16,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         GROUP BY courses.CourseId, course_departments.DepartmentId, departments.BodyPart;`,
       values: "",
     });
-    const results: [CourseObjectAdmin] = queryDb;
+    const results = queryDb as CourseObjectAdmin[];
     res.status(200).json(results);
   } catch (error) {
     console.log(error);

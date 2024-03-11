@@ -22,9 +22,12 @@ const CourseEdit: NextPage<props> = ({ course, instructors, facilities }) => {
   const [checked, setChecked] = useState<boolean>(course.EveryWeek == 1 ? true : false);
   const [departments, setDepartments] = useState<Department[]>();
   const [selected, setSelected] = useState<number>();
-  const [instructorsIdArr, setInstructorsIdArr] = useState<Array<string>>(course.Instructors?.split(",") || []);
+  const [instructorsIdArr, setInstructorsIdArr] = useState<Array<string>>(
+    course.Instructors?.split(",") || []
+  );
   const [selectedFacility, setSelectedFacility] = useState(
-    facilities.find((x) => x.Name.toLowerCase() === course.FacilityName.toLowerCase())?.FacilityId || "default"
+    facilities.find((x) => x.Name.toLowerCase() === course.FacilityName.toLowerCase())
+      ?.FacilityId || "default"
   );
 
   const router = useRouter();
@@ -223,7 +226,7 @@ const CourseEdit: NextPage<props> = ({ course, instructors, facilities }) => {
               return (
                 <div
                   key={i}
-                  className="flex items-center bg-primary m-1 p-1 rounded-full text-white hover:cursor-pointer"
+                  className="flex items-center p-1 m-1 text-white rounded-full bg-primary hover:cursor-pointer"
                   onClick={() => removeInstructor(id)}
                 >
                   <span>
